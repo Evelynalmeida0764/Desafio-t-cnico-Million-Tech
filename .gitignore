@@ -1,0 +1,24 @@
+# Node
+node_modules/
+dist/
+.env
+*.log
+
+# React
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# TypeORM
+ormconfig.json
+
+# IDEs / editores
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Sistema
+.DS_Store
+Thumbs.db
