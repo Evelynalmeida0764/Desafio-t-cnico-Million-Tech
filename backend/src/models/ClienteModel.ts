@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../src/Data/DataContext';
+import sequelize from '../Data/DataContext';
 
 export class Cliente extends Model {
     public id!: number;

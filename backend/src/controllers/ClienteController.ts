@@ -12,7 +12,7 @@ export class ClienteController {
     public async registrarCliente(req: Request, res: Response): Promise<void> {
         try {
             const clienteData = req.body;
-            const newCliente = await this.clienteService.createCliente(clienteData);
+            const newCliente = await this.clienteService.criarCliente(clienteData);
             res.status(201).json(newCliente);
         } catch (error) {
             res.status(500).json({ message: 'Error registering cliente', error });
@@ -22,7 +22,7 @@ export class ClienteController {
     // Listar todos os clientes
     public async listarClientes(req: Request, res: Response): Promise<void> {
         try {
-            const clientes = await this.clienteService.getAllClientes();
+            const clientes = await this.clienteService.pegarTodosClientes();
             res.status(200).json(clientes);
         } catch (error) {
             res.status(500).json({ message: 'Error retrieving clientes', error });
@@ -33,7 +33,7 @@ export class ClienteController {
     public async getClienteById(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            const cliente = await this.clienteService.getClienteById(Number(id));
+            const cliente = await this.clienteService.pegarClientePorId(Number(id));
             if (!cliente) {
                 res.status(404).json({ message: 'Cliente not found' });
                 return;
@@ -49,7 +49,7 @@ export class ClienteController {
         try {
             const { id } = req.params;
             const clienteData = req.body;
-            const [updatedRows] = await this.clienteService.updateCliente(Number(id), clienteData);
+            const [updatedRows] = await this.clienteService.atualizarCliente(Number(id), clienteData);
             if (updatedRows === 0) {
                 res.status(404).json({ message: 'Cliente not found' });
                 return;
@@ -57,21 +57,6 @@ export class ClienteController {
             res.status(200).json({ message: 'Cliente updated successfully' });
         } catch (error) {
             res.status(500).json({ message: 'Error updating cliente', error });
-        }
-    }
-
-    // Deletar cliente
-    public async deleteCliente(req: Request, res: Response): Promise<void> {
-        try {
-            const { id } = req.params;
-            const deletedRows = await this.clienteService.deleteCliente(Number(id));
-            if (deletedRows === 0) {
-                res.status(404).json({ message: 'Cliente not found' });
-                return;
-            }
-            res.status(200).json({ message: 'Cliente deleted successfully' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error deleting cliente', error });
         }
     }
 }

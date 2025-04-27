@@ -2,7 +2,7 @@ import { Cliente } from '../models/ClienteModel';
 
 export class ClienteService {
     // Método para criar um novo cliente
-    public async createCliente(clienteData: {
+    public async criarCliente(clienteData: {
         name: string;
         email: string;
         telefone?: string;
@@ -18,7 +18,7 @@ export class ClienteService {
     }
 
     // Método para buscar todos os clientes
-    public async getAllClientes(): Promise<Cliente[]> {
+    public async pegarTodosClientes(): Promise<Cliente[]> {
         try {
             const clientes = await Cliente.findAll();
             return clientes;
@@ -29,7 +29,7 @@ export class ClienteService {
     }
 
     // Método para buscar um cliente por ID
-    public async getClienteById(id: number): Promise<Cliente | null> {
+    public async pegarClientePorId(id: number): Promise<Cliente | null> {
         try {
             const cliente = await Cliente.findByPk(id);
             return cliente;
@@ -49,19 +49,6 @@ export class ClienteService {
             return linhasAtualizadas;
         } catch (error) {
             console.error('Erro ao atualizar cliente:', error);
-            throw error;
-        }
-    }
-
-    // Método para deletar um cliente
-    public async deleteCliente(id: number): Promise<number> {
-        try {
-            const resultado = await Cliente.destroy({
-                where: { id },
-            });
-            return resultado;
-        } catch (error) {
-            console.error('Erro ao deletar cliente:', error);
             throw error;
         }
     }
