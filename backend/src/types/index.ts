@@ -1,15 +1,15 @@
 export interface Cliente {
-    name: string;
+    nome: string;
     email: string;
     telefone: string;
-    endereço: string;
+    endereco: string;
 }
 
 export interface RegisterClientRequest {
-    name: string;
+    nome: string;
     email: string;
     telefone: string;
-    endereço: string;
+    endereco: string;
 }
 
 export interface ListClientsResponse {

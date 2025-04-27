@@ -7,6 +7,9 @@ import clienteRoutes from './routes/ClienteRoutes';
 
 const app = express();
 
+// Middleware para processar JSON
+app.use(express.json());
+
 // Configuração do Swagger
 const swaggerOptions = {
     definition: {
@@ -18,7 +21,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://localhost:3000', // Altere para a URL do seu servidor
+                url: 'http://localhost:3000/api', // Inclua o prefixo /api aqui
             },
         ],
     },
@@ -32,7 +35,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 const startApp = async () => {
     try {
         await connectDatabase();
-        await Cliente.sync();
+        await Cliente.sync(); // Sincroniza o modelo Cliente com o banco de dados
         console.log('Database synchronized');
 
         // Inicia o servidor

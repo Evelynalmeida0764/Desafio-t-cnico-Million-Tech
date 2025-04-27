@@ -3,10 +3,10 @@ import sequelize from '../Data/DataContext';
 
 export class Cliente extends Model {
     public id!: number;
-    public name!: string;
+    public nome!: string;
     public email!: string;
     public telefone?: string;
-    public endereço?: string;
+    public endereco?: string;
 }
 
 Cliente.init(
@@ -16,28 +16,27 @@ Cliente.init(
             autoIncrement: true,
             primaryKey: true,
         },
-        name: {
+        nome: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
         telefone: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
         },
-        endereço: {
-            type: DataTypes.TEXT,
-            allowNull: true,
+        endereco: { // Certifique-se de que o campo está configurado corretamente
+            type: DataTypes.STRING,
+            allowNull: true, // Permite valores nulos
         },
     },
     {
         sequelize,
         modelName: 'Cliente',
         tableName: 'clientes',
-        timestamps: true, // Adiciona os campos createdAt e updatedAt automaticamente
+        timestamps: false,
     }
 );

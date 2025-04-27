@@ -16,20 +16,19 @@ const clienteController = new ClienteController();
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               nome:
  *                 type: string
  *               email:
  *                 type: string
  *               telefone:
  *                 type: string
- *               endereço:
+ *               endereco:
  *                 type: string
  *     responses:
  *       201:
  *         description: Cliente criado com sucesso
  */
 router.post('/clientes', (req, res) => clienteController.registrarCliente(req, res));
-
 /**
  * @swagger
  * /clientes:
@@ -51,7 +50,7 @@ router.get('/clientes', (req, res) => clienteController.listarClientes(req, res)
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID do cliente a ser atualizado
  *     requestBody:
  *       required: true
@@ -60,20 +59,27 @@ router.get('/clientes', (req, res) => clienteController.listarClientes(req, res)
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               nome:
  *                 type: string
  *               email:
  *                 type: string
  *               telefone:
  *                 type: string
- *               endereço:
+ *               endereco:
  *                 type: string
+ *             required:
+ *               - nome
+ *               - email
+ *               - telefone
  *     responses:
  *       200:
  *         description: Cliente atualizado com sucesso
+ *       400:
+ *         description: Erro na requisição
  *       404:
  *         description: Cliente não encontrado
- * 
+ *       500:
+ *         description: Erro interno do servidor
  */
 router.put('/clientes/:id', (req, res) => clienteController.atualizarCliente(req, res));
 

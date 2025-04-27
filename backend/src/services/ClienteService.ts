@@ -3,10 +3,10 @@ import { Cliente } from '../models/ClienteModel';
 export class ClienteService {
     // Método para criar um novo cliente
     public async criarCliente(clienteData: {
-        name: string;
+        nome: string;
         email: string;
         telefone?: string;
-        endereço?: string;
+        endereco?: string;
     }): Promise<Cliente> {
         try {
             const novoCliente = await Cliente.create(clienteData);
