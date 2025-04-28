@@ -21,6 +21,7 @@ export class ClienteService {
     public async pegarTodosClientes(): Promise<Cliente[]> {
         try {
             const clientes = await Cliente.findAll();
+alert(clientes.length)
             return clientes;
         } catch (error) {
             console.error('Erro ao buscar clientes:', error);

@@ -1,79 +1,64 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
+import { pegarTodosClientes } from '../services/ClienteService'; // Importa o serviço para consumir a API
+import { ICliente } from '../types/ICliente';
 
 const ListaCliente: React.FC = () => {
-    const [cliente, setClients] = useState<any[]>([]);
+    const [clientes, setClientes] = useState<ICliente[]>([]); // Estado para armazenar os clientes
 
     useEffect(() => {
-        const fetchClients = async () => {
+        const fetchClientes = async () => {
             try {
-                const response = await fetch('/api/clientes'); // Adjust the API endpoint as needed
-                const data = await response.json();
-                setClients(data);
+                const clientes = await pegarTodosClientes(); // Chama o serviço e obtém os dados
+                setClientes(clientes); // Atualiza o estado com os dados recebidos
             } catch (error) {
-                console.error('Error fetching clients:', error);
+                console.error('Erro ao buscar clientes:', error);
             }
         };
 
-        fetchClients();
+        fetchClientes();
     }, []);
 
-
-    return (        
+    return (
         <>
-        <Navbar/>    
-        <table className="table">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>
-                        <button type="button" className="btn btn-primary">
-                            <Link to="/atualizar-cliente" style={{ color: 'white', textDecoration: 'none' }}>
-                            AtualizarCliente
-                            </Link>
-                        </button>
-                    </td>                
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>
-                        <button type="button" className="btn btn-primary">
-                            <Link to="/atualizar-cliente" style={{ color: 'white', textDecoration: 'none' }}>
-                            AtualizarCliente
-                            </Link>
-                        </button>
-                    </td>    
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>@social</td>
-                    <td>
-                        <button type="button" className="btn btn-primary">
-                            <Link to="/atualizar-cliente" style={{ color: 'white', textDecoration: 'none' }}>
-                            AtualizarCliente
-                            </Link>
-                        </button>
-                    </td>    
-                </tr>
-            </tbody>
-        </table>
+            <Navbar />
+            <div className="container mt-4">
+                <h1>Lista de Clientes</h1>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Telefone</th>
+                            <th scope="col">Endereço</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {clientes.map((cliente, index) => (
+                            <tr key={cliente.id}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{cliente.nome}</td>
+                                <td>{cliente.email}</td>
+                                <td>{cliente.telefone || 'Não informado'}</td>
+                                <td>{cliente.endereco || 'Não informado'}</td>
+                                <td>
+                                    <button type="button" className="btn btn-primary">
+                                        <Link
+                                            to={`/atualizar-cliente/${cliente.id}`}
+                                            style={{ color: 'white', textDecoration: 'none' }}
+                                        >
+                                            Atualizar
+                                        </Link>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </>
     );
 };
