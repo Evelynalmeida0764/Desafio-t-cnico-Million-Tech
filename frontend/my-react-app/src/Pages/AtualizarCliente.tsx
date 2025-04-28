@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Navbar } from 'react-bootstrap';
+
 
 const AtualizandoCliente: React.FC = () => {
   const [client, setClient] = useState({ name: '', email: '' });
@@ -23,29 +25,32 @@ const AtualizandoCliente: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Nome:
-        <input
-          type="text"
-          name="name"
-          value={client.name}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={client.email}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <button type="submit">Atualizar Cliente</button>
-    </form>
+    <>
+    <Navbar/>  
+        <form onSubmit={handleSubmit}>
+        <label>
+            Nome:
+            <input
+            type="text"
+            name="name"
+            value={client.name}
+            onChange={handleChange}
+            />
+        </label>
+        <br />
+        <label>
+            Email:
+            <input
+            type="email"
+            name="email"
+            value={client.email}
+            onChange={handleChange}
+            />
+        </label>
+        <br />
+        <button type="submit">Atualizar Cliente</button>
+        </form>
+    </>
   );
 };
 

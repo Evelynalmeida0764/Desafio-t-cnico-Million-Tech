@@ -4,8 +4,11 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import { connectDatabase } from '../src/Data/DataContext';
 import { Cliente } from './models/ClienteModel';
 import clienteRoutes from './routes/ClienteRoutes';
+import cors from 'cors'; // Importa o middleware CORS
 
 const app = express();
+app.use(cors()); // Middleware CORS para permitir requisições de diferentes origens
+app.use(express.json()); // Middleware para analisar JSON
 
 // Middleware para processar JSON
 app.use(express.json());

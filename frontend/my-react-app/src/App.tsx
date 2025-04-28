@@ -4,19 +4,17 @@ import Login from './Pages/Login';
 import AtualizarCleinte from './Pages/AtualizarCliente';
 import ListaCliente from './Pages/ListaClientes';
 import AdicionarCliente from './Pages/AdicionarCliente';
-import MainApp from './Components/MainApp';
 
 const App: React.FC = () => {
   return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/MainApp" element={<MainApp />}/>
-                <Route path='/ListaCliente' element={<ListaCliente />} />'
-                <Route path='/AdicionarCliente' element={<AdicionarCliente />} />
-                <Route path='/AtualizarCliente/:id' element={<AtualizarCleinte />} />
-            </Routes>
-        </Router>       
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path='/ListaCliente' element={<ListaCliente />} />
+        <Route path='/AdicionarCliente' element={<AdicionarCliente />} />
+        <Route path='/AtualizarCliente/:id' element={<AtualizarCleinte />} />
+      </Routes>
+    </Router>
   );
 };
 

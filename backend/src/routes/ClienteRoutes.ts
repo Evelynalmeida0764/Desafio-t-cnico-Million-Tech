@@ -1,9 +1,12 @@
 import { Router } from 'express';
+import Express from 'express'; // Importa o Express
 import { ClienteController } from '../controllers/ClienteController';
+import LoginController from '../controllers/LoginController'; // Importa o LoginController
+import cors from 'cors'; // Importa o middleware CORS
 
-const router = Router();
+const router = Router();    
+
 const clienteController = new ClienteController();
-
 /**
  * @swagger
  * /clientes:
@@ -29,6 +32,7 @@ const clienteController = new ClienteController();
  *         description: Cliente criado com sucesso
  */
 router.post('/clientes', (req, res) => clienteController.registrarCliente(req, res));
+
 /**
  * @swagger
  * /clientes:
@@ -82,5 +86,29 @@ router.get('/clientes', (req, res) => clienteController.listarClientes(req, res)
  *         description: Erro interno do servidor
  */
 router.put('/clientes/:id', (req, res) => clienteController.atualizarCliente(req, res));
+//  A PARTIR DAQUI O COPILOT FAZ PRA CONECTAR COM O FRONT NÃO SEI PQ
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Realiza o login do usuário
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login bem-sucedido
+ *       401:
+ *         description: Credenciais inválidas
+ */
+router.post('/auth/login', new LoginController().login); // Adiciona a rota de login
 
 export default router;

@@ -1,43 +1,56 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const [usuario, setUsuario] = useState('');
+  const [senha, setSenha] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Substitua por sua lógica de autenticação
-    if (username === 'admin' && password === 'admin') {
-      navigate('/MainApp'); // Redireciona para o conteúdo principal
-    } else {
-      alert('Login ou senha inválidos!');
+
+    try {
+        const api = axios.create({
+            baseURL: 'http://localhost:3000/api/',
+        });
+      const response = await api.post<{ message: string; token: string }>('auth/login', {
+        usuario,
+        senha,
+      });
+
+      alert(response.data.message); // Exibe a mensagem de sucesso
+
+
+            
+      localStorage.setItem('token', response.data.token); // Salva o token no localStorage
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Erro ao fazer login');
     }
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+    <div style={{textAlign: 'center', marginTop: '50px '}}>
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
         <div>
-          <input
+        <input
             type="text"
             placeholder="Usuário"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            />
         </div>
         <div>
-          <input
+            <input
             type="password"
             placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            />
         </div>
         <button type="submit">Entrar</button>
       </form>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };
