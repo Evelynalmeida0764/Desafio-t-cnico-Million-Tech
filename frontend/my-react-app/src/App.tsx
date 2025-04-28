@@ -1,23 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import AdicionarCliente from './Pages/AdicionarCliente';
-import AtualizarCliente from './Pages/AtualizarCliente';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './Pages/Login';
+import AtualizarCleinte from './Pages/AtualizarCliente';
 import ListaCliente from './Pages/ListaClientes';
-
+import AdicionarCliente from './Pages/AdicionarCliente';
+import MainApp from './Components/MainApp';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light ml-2" >
-        <Link to="/AdicionarCliente">AdicionarCliente</Link>
-        <Link to="/ListaCliente">ListaCliente</Link>
-      </nav>
-      <Routes>
-        <Route path="/AdicionarCliente" element={<AdicionarCliente />} />
-        <Route path="/ListaCliente" element={<ListaCliente />} />
-        <Route path="/AtulizarCliente" element={<AtualizarCliente />} />
-      </Routes>
-    </Router>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/MainApp" element={<MainApp />}/>
+                <Route path='/ListaCliente' element={<ListaCliente />} />'
+                <Route path='/AdicionarCliente' element={<AdicionarCliente />} />
+                <Route path='/AtualizarCliente/:id' element={<AtualizarCleinte />} />
+            </Routes>
+        </Router>       
   );
 };
 

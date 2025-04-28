@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from '../Components/Navbar';
 
-const ListClients: React.FC = () => {
+const ListaCliente: React.FC = () => {
     const [cliente, setClients] = useState<any[]>([]);
 
     useEffect(() => {
@@ -19,7 +20,9 @@ const ListClients: React.FC = () => {
     }, []);
 
 
-    return (
+    return (        
+        <>
+        <Navbar/>    
         <table className="table">
             <thead>
                 <tr>
@@ -71,7 +74,8 @@ const ListClients: React.FC = () => {
                 </tr>
             </tbody>
         </table>
+        </>
     );
 };
 
-export default ListClients;
+export default ListaCliente;
