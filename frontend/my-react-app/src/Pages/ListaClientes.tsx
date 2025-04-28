@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ListClients: React.FC = () => {
-    const [clients, setClients] = useState<any[]>([]);
+    const [cliente, setClients] = useState<any[]>([]);
 
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const response = await fetch('/api/clients'); // Adjust the API endpoint as needed
+                const response = await fetch('/api/clientes'); // Adjust the API endpoint as needed
                 const data = await response.json();
                 setClients(data);
             } catch (error) {
@@ -17,44 +18,59 @@ const ListClients: React.FC = () => {
         fetchClients();
     }, []);
 
-    const handleDelete = async (id: string) => {
-        try {
-            await fetch(`/api/clients/${id}`, {
-                method: 'DELETE',
-            });
-            setClients(clients.filter(client => client.id !== id));
-        } catch (error) {
-            console.error('Error deleting client:', error);
-        }
-    };
 
     return (
-        <div>
-            <h1>List of Clients</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {clients.map(client => (
-                        <tr key={client.id}>
-                            <td>{client.id}</td>
-                            <td>{client.name}</td>
-                            <td>{client.email}</td>
-                            <td>
-                                <button onClick={() => handleDelete(client.id)}>Delete</button>
-                                <button onClick={() => {/* Navigate to update client page */}}>Edit</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <table className="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>
+                        <button type="button" className="btn btn-primary">
+                            <Link to="/atualizar-cliente" style={{ color: 'white', textDecoration: 'none' }}>
+                            AtualizarCliente
+                            </Link>
+                        </button>
+                    </td>                
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    <td>
+                        <button type="button" className="btn btn-primary">
+                            <Link to="/atualizar-cliente" style={{ color: 'white', textDecoration: 'none' }}>
+                            AtualizarCliente
+                            </Link>
+                        </button>
+                    </td>    
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>@social</td>
+                    <td>
+                        <button type="button" className="btn btn-primary">
+                            <Link to="/atualizar-cliente" style={{ color: 'white', textDecoration: 'none' }}>
+                            AtualizarCliente
+                            </Link>
+                        </button>
+                    </td>    
+                </tr>
+            </tbody>
+        </table>
     );
 };
 

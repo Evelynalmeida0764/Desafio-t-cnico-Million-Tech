@@ -1,19 +1,21 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AdicionarCliente from './Pages/AdicionarCliente';
+import AtualizarCliente from './Pages/AtualizarCliente';
+import ListaCliente from './Pages/ListaClientes';
 
-const Home = () => <h1>Home</h1>;
-const About = () => <h1>About</h1>;
 
 const App: React.FC = () => {
   return (
     <Router>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light ml-2" >
+        <Link to="/AdicionarCliente">AdicionarCliente</Link>
+        <Link to="/ListaCliente">ListaCliente</Link>
       </nav>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/AdicionarCliente" element={<AdicionarCliente />} />
+        <Route path="/ListaCliente" element={<ListaCliente />} />
+        <Route path="/AtulizarCliente" element={<AtualizarCliente />} />
       </Routes>
     </Router>
   );
