@@ -47,6 +47,24 @@ const AtualizandoCliente: React.FC = () => {
             onChange={handleChange}
             />
         </label>
+        <label>
+            Telefone:
+            <input
+            type="text"
+            name="telefone"
+            value={client.email}
+            onChange={handleChange}
+            />
+        </label>
+        <label>
+            Endereço:
+            <input
+            type="text"
+            name="endereco"
+            value={client.email}
+            onChange={handleChange}
+            />
+        </label>
         <br />
         <button type="submit">Atualizar Cliente</button>
         </form>

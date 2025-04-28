@@ -39,7 +39,7 @@ const AdicionarCliente: React.FC = () => {
             await criarCliente(novoCliente);
             
             alert('Cliente adicionado com sucesso!');
-            navigate('/lista-clientes'); // Redireciona para a lista após sucesso
+            navigate('/ListaCliente'); // Redireciona para a lista após sucesso
         } catch (error) {
             console.error('Erro ao adicionar cliente:', error);
             setErro(error instanceof Error ? error.message : 'Erro ao adicionar cliente');

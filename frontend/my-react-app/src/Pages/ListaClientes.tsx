@@ -47,7 +47,7 @@ const ListaCliente: React.FC = () => {
                                 <td>
                                     <button type="button" className="btn btn-primary">
                                         <Link
-                                            to={`/atualizar-cliente/${cliente.id}`}
+                                            to={`/AtualizarCliente/${cliente.id}`}
                                             style={{ color: 'white', textDecoration: 'none' }}
                                         >
                                             Atualizar
