@@ -10,9 +10,6 @@ const app = express();
 app.use(cors()); // Middleware CORS para permitir requisições de diferentes origens
 app.use(express.json()); // Middleware para analisar JSON
 
-// Middleware para processar JSON
-app.use(express.json());
-
 // Configuração do Swagger
 const swaggerOptions = {
     definition: {

@@ -1,8 +1,8 @@
     import { Request, Response } from 'express';
 
 class LoginController {
-        async login(req: Request, res: Response) {
-            const { usuario, senha } = req.body;
+    async login(req: Request, res: Response) {
+        const { usuario, senha } = req.body;
 
     // Credenciais fixas para validação
     const validUsuario = 'admin';
