@@ -1,12 +1,10 @@
 import { Router } from 'express';
-import Express from 'express'; // Importa o Express
 import { ClienteController } from '../controllers/ClienteController';
-import LoginController from '../controllers/LoginController'; // Importa o LoginController
-import cors from 'cors'; // Importa o middleware CORS
+import LoginController from '../controllers/LoginController';
 
-const router = Router();    
-
+const router = Router();
 const clienteController = new ClienteController();
+
 /**
  * @swagger
  * /clientes:
@@ -47,6 +45,26 @@ router.get('/clientes', (req, res) => clienteController.listarClientes(req, res)
 /**
  * @swagger
  * /clientes/{id}:
+ *   get:
+ *     summary: Busca um cliente pelo ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do cliente a ser buscado
+ *     responses:
+ *       200:
+ *         description: Cliente encontrado
+ *       404:
+ *         description: Cliente não encontrado
+ */
+router.get('/clientes/:id', (req, res) => clienteController.getClienteById(req, res));
+
+/**
+ * @swagger
+ * /clientes/{id}:
  *   put:
  *     summary: Atualiza um cliente existente
  *     parameters:
@@ -71,22 +89,16 @@ router.get('/clientes', (req, res) => clienteController.listarClientes(req, res)
  *                 type: string
  *               endereco:
  *                 type: string
- *             required:
- *               - nome
- *               - email
- *               - telefone
  *     responses:
  *       200:
  *         description: Cliente atualizado com sucesso
- *       400:
- *         description: Erro na requisição
  *       404:
  *         description: Cliente não encontrado
  *       500:
  *         description: Erro interno do servidor
  */
 router.put('/clientes/:id', (req, res) => clienteController.atualizarCliente(req, res));
-//  A PARTIR DAQUI O COPILOT FAZ PRA CONECTAR COM O FRONT NÃO SEI PQ
+
 /**
  * @swagger
  * /auth/login:
@@ -109,6 +121,6 @@ router.put('/clientes/:id', (req, res) => clienteController.atualizarCliente(req
  *       401:
  *         description: Credenciais inválidas
  */
-router.post('/auth/login', new LoginController().login); // Adiciona a rota de login
+router.post('/auth/login', new LoginController().login);
 
 export default router;

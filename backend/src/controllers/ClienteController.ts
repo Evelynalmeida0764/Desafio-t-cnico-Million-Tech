@@ -15,7 +15,7 @@ export class ClienteController {
             const newCliente = await this.clienteService.criarCliente(clienteData);
             res.status(201).json(newCliente);
         } catch (error) {
-            res.status(500).json({ message: 'Error registering cliente', error });
+            res.status(500).json({ message: 'Erro ao registrar cliente', error });
         }
     }
 
@@ -25,7 +25,7 @@ export class ClienteController {
             const clientes = await this.clienteService.pegarTodosClientes();
             res.status(200).json(clientes);
         } catch (error) {
-            res.status(500).json({ message: 'Error retrieving clientes', error });
+            res.status(500).json({ message: 'Erro ao buscar clientes', error });
         }
     }
 
@@ -35,12 +35,12 @@ export class ClienteController {
             const { id } = req.params;
             const cliente = await this.clienteService.pegarClientePorId(Number(id));
             if (!cliente) {
-                res.status(404).json({ message: 'Cliente not found' });
+                res.status(404).json({ message: 'Cliente não encontrado' });
                 return;
             }
             res.status(200).json(cliente);
         } catch (error) {
-            res.status(500).json({ message: 'Error retrieving cliente', error });
+            res.status(500).json({ message: 'Erro ao buscar cliente', error });
         }
     }
 
@@ -49,14 +49,16 @@ export class ClienteController {
         try {
             const { id } = req.params;
             const clienteData = req.body;
-            const [updatedRows] = await this.clienteService.atualizarCliente(Number(id), clienteData);
-            if (updatedRows === 0) {
-                res.status(404).json({ message: 'Cliente not found' });
+            const clienteAtualizado = await this.clienteService.atualizarCliente(Number(id), clienteData);
+
+            if (!clienteAtualizado) {
+                res.status(404).json({ message: 'Cliente não encontrado' });
                 return;
             }
-            res.status(200).json({ message: 'Cliente updated successfully' });
+
+            res.status(200).json(clienteAtualizado); // Retorna o cliente atualizado
         } catch (error) {
-            res.status(500).json({ message: 'Error updating cliente', error });
+            res.status(500).json({ message: 'Erro ao atualizar cliente erro 500', error });
         }
     }
 }

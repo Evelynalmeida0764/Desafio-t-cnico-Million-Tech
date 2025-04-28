@@ -40,13 +40,19 @@ export class ClienteService {
     }
 
     // Método para atualizar um cliente
-    public async atualizarCliente(id: number, clienteData: Partial<Cliente>): Promise<[number, Cliente[]]> {
+    public async atualizarCliente(id: number, clienteData: Partial<Cliente>): Promise<Cliente | null> {
         try {
-            const linhasAtualizadas = await Cliente.update(clienteData, {
+            const [linhasAtualizadas, clientesAtualizados] = await Cliente.update(clienteData, {
                 where: { id },
-                returning: true, // Retorna os dados atualizados (opcional)
+                returning: true, // Retorna os dados atualizados
             });
-            return linhasAtualizadas;
+
+            if (linhasAtualizadas === 0) {
+                return null; // Nenhum cliente foi atualizado
+                alert('Nenhum cliente encontrado para atualizar');
+            }
+
+            return clientesAtualizados[0]; // Retorna o cliente atualizado
         } catch (error) {
             console.error('Erro ao atualizar cliente:', error);
             throw error;
