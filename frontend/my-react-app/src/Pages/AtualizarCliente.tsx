@@ -1,75 +1,78 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
+import Navbar from '../Components/Navbar';
+import ClienteForm from '../Components/ClienteForm';
+import { ICliente } from '../types/ICliente';
+import { pegarClientePorId, atualizarCliente } from '../services/ClienteService'; // você vai precisar criar essas funções!
 
-
-const AtualizandoCliente: React.FC = () => {
-  const [client, setClient] = useState({ name: '', email: '' });
+const AtualizarCliente: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  
+  const [cliente, setCliente] = useState<ICliente | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState('');
 
   useEffect(() => {
-    // Lógica para buscar os dados do cliente
-  }, []);
+    const carregarCliente = async () => {
+      try {
+        if (id) {
+          const dadosCliente = await pegarClientePorId(parseInt(id));
+          setCliente(dadosCliente);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar cliente:', error);
+        setErro('Erro ao carregar dados do cliente.');
+      }
+    };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setClient({ ...client, [name]: value });
+    carregarCliente();
+  }, [id]);
+
+  const handleAtualizarCliente = async (dadosAtualizados: Omit<ICliente, 'id'>) => {
+    setLoading(true);
+    setErro('');
+
+    try {
+      if (id) {
+        await atualizarCliente(parseInt(id), dadosAtualizados);
+        alert('Cliente atualizado com sucesso!');
+        navigate('/ListaCliente');
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar cliente:', error);
+      setErro('Erro ao atualizar cliente.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Lógica para atualizar o cliente
-    await fetch('/api/clients/1', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(client),
-    });
-  };
+  if (!cliente) {
+    return (
+      <>
+        <Navbar />
+        <div className="container mt-4">
+          <p>Carregando dados do cliente...</p>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
-    <Navbar/>  
-        <form onSubmit={handleSubmit}>
-        <label>
-            Nome:
-            <input
-            type="text"
-            name="name"
-            value={client.name}
-            onChange={handleChange}
-            />
-        </label>
-        <br />
-        <label>
-            Email:
-            <input
-            type="email"
-            name="email"
-            value={client.email}
-            onChange={handleChange}
-            />
-        </label>
-        <label>
-            Telefone:
-            <input
-            type="text"
-            name="telefone"
-            value={client.email}
-            onChange={handleChange}
-            />
-        </label>
-        <label>
-            Endereço:
-            <input
-            type="text"
-            name="endereco"
-            value={client.email}
-            onChange={handleChange}
-            />
-        </label>
-        <br />
-        <button type="submit">Atualizar Cliente</button>
-        </form>
+      <Navbar />
+      <div className="container mt-4">
+        <h2>Atualizar Cliente</h2>
+        <ClienteForm
+          cliente={cliente}
+          onSubmit={handleAtualizarCliente}
+          loading={loading}
+          erro={erro}
+          tituloBotao="Editar Cliente"
+        />
+      </div>
     </>
   );
 };
 
-export default AtualizandoCliente;
+export default AtualizarCliente;

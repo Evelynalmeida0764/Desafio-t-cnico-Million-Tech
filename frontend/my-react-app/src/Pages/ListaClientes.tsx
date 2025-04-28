@@ -50,7 +50,7 @@ const ListaCliente: React.FC = () => {
                                             to={`/AtualizarCliente/${cliente.id}`}
                                             style={{ color: 'white', textDecoration: 'none' }}
                                         >
-                                            Atualizar
+                                            Editar
                                         </Link>
                                     </button>
                                 </td>

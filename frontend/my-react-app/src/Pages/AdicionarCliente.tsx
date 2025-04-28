@@ -1,120 +1,53 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../Components/Navbar'; // Ajuste para o seu componente Navbar correto
+import Navbar from '../Components/Navbar';
 import { criarCliente } from '../services/ClienteService';
 import { ICliente } from '../types/ICliente';
+import ClienteForm from '../Components/ClienteForm';
 
 const AdicionarCliente: React.FC = () => {
-    const navigate = useNavigate();
-    const [nome, setNome] = useState('');
-    const [email, setEmail] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [endereco, setEndereco] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [erro, setErro] = useState('');
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState('');
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        setLoading(true);
-        setErro('');
+  const handleAdicionarCliente = async (novoCliente: Omit<ICliente, 'id'>) => {
+    setLoading(true);
+    setErro('');
 
-        try {
-            // Validações básicas
-            if (!nome.trim()) {
-                throw new Error('Nome é obrigatório');
-            }
-            if (!email.trim()) {
-                throw new Error('Email é obrigatório');
-            }
+    try {
+      if (!novoCliente.nome.trim()) {
+        throw new Error('Nome é obrigatório');
+      }
+      if (!novoCliente.email.trim()) {
+        throw new Error('Email é obrigatório');
+      }
 
-            // Criar objeto cliente usando a interface
-            const novoCliente: Omit<ICliente, 'id'> = {
-                nome,
-                email,
-                telefone: telefone || undefined,
-                endereco: endereco || undefined
-            };
+      await criarCliente(novoCliente);
 
-            // Chamar o serviço para criar o cliente
-            await criarCliente(novoCliente);
-            
-            alert('Cliente adicionado com sucesso!');
-            navigate('/ListaCliente'); // Redireciona para a lista após sucesso
-        } catch (error) {
-            console.error('Erro ao adicionar cliente:', error);
-            setErro(error instanceof Error ? error.message : 'Erro ao adicionar cliente');
-        } finally {
-            setLoading(false);
-        }
-    };
+      alert('Cliente adicionado com sucesso!');
+      navigate('/ListaCliente');
+    } catch (error) {
+      console.error('Erro ao adicionar cliente:', error);
+      setErro(error instanceof Error ? error.message : 'Erro ao adicionar cliente');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <>
-            <Navbar />
-            
-            <div className="container mt-4">
-                <h2>Adicionar Cliente</h2>
-                
-                {erro && (
-                    <div className="alert alert-danger" role="alert">
-                        {erro}
-                    </div>
-                )}
-                
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label">Nome:</label>
-                        <input
-                            className="form-control"
-                            type="text"
-                            value={nome}
-                            onChange={(e) => setNome(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="mb-3">
-                        <label className="form-label">Email:</label>
-                        <input
-                            className="form-control"
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="mb-3">
-                        <label className="form-label">Telefone:</label>
-                        <input
-                            className="form-control"
-                            type="tel"
-                            value={telefone}
-                            onChange={(e) => setTelefone(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="mb-3">
-                        <label className="form-label">Endereço:</label>
-                        <input
-                            className="form-control"
-                            type="text"
-                            value={endereco}
-                            onChange={(e) => setEndereco(e.target.value)}
-                        />
-                    </div>
-
-                    <button 
-                        className="btn btn-primary" 
-                        type="submit" 
-                        disabled={loading}
-                    >
-                        {loading ? 'Adicionando...' : 'Adicionar Cliente'}
-                    </button>
-                </form>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <Navbar />
+      <div className="container mt-4">
+        <h2>Adicionar Cliente</h2>
+        <ClienteForm
+          onSubmit={handleAdicionarCliente}
+          loading={loading}
+          erro={erro}
+          tituloBotao="Adicionar Cliente"
+        />
+      </div>
+    </>
+  );
 };
 
 export default AdicionarCliente;
