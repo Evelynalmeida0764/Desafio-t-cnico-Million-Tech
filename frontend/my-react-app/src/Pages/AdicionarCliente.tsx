@@ -43,7 +43,7 @@ const AdicionarCliente: React.FC = () => {
           onSubmit={handleAdicionarCliente}
           loading={loading}
           erro={erro}
-          tituloBotao="Adicionar Cliente"
+          tituloBotao="Salvar"
         />
       </div>
     </>

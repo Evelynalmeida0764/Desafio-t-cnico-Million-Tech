@@ -68,7 +68,7 @@ const AtualizarCliente: React.FC = () => {
           onSubmit={handleAtualizarCliente}
           loading={loading}
           erro={erro}
-          tituloBotao="Editar Cliente"
+          tituloBotao="Salvar"
         />
       </div>
     </>
