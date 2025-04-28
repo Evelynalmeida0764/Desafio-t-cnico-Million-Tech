@@ -17,7 +17,6 @@ const Login: React.FC = () => {
         senha,
       });
 
-      alert(response.data.message); // Exibe a mensagem de sucesso
       sessionStorage.setItem('token', response.data.token); // Salva o token no localStorage
       navigate('/ListaCliente'); // Redireciona para a página de ListaCliente
     } catch (err: any) {
